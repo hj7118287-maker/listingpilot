@@ -321,14 +321,3 @@ function ResultCard({ title, content, children }: { title: string; content: stri
     </div>
   )
 }
-
-function CopyButton({ text }: { text: string }) {
-  const [copied, setCopied] = useState(false)
-  return (
-    <button
-      onClick={() => { navigator.clipboard.writeText(text); setCopied(true); setTimeout(() => setCopied(false), 2000) }}
-      className="text-xs text-gray-400 hover:text-blue-600 transition px-2 py-1 rounded hover:bg-blue-50">
-      {copied ? '✓ Copied' : 'Copy'}
-    </button>
-  )
-}
