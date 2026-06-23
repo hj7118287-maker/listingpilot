@@ -79,7 +79,16 @@ export default function Dashboard() {
         return
       }
 
-      setResult(data.result)
+      setResult({
+        seoTitle: data.result?.seoTitle || '',
+        description: data.result?.description || '',
+        bullets: data.result?.bullets || [],
+        faq: data.result?.faq || [],
+        seoDescription: data.result?.seoDescription || '',
+        searchTags: data.result?.searchTags || [],
+        riskCheck: data.result?.riskCheck || { found: [], safe: true, alternatives: {} },
+        localizedVersion: data.result?.localizedVersion,
+      })
       setUsage(data.usage)
     } catch {
       setError('Network error. Please check your connection.')
