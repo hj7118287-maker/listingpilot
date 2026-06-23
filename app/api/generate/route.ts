@@ -113,7 +113,7 @@ Rules:
 5. All tags must be single words or short 2-3 word phrases`
 
     const message = await anthropic.messages.create({
-      model: 'claude-haiku-4-5-20251001',  // Haiku = 빠르고 저렴
+      model: 'claude-3-5-haiku-20241022',  // Haiku = 빠르고 저렴
       max_tokens: 2000,
       messages: [{ role: 'user', content: prompt }],
     })
@@ -164,6 +164,7 @@ Rules:
 
   } catch (error) {
     console.error('Generate error:', error)
-    return NextResponse.json({ error: 'Server error. Please try again.' }, { status: 500 })
+    const msg = error instanceof Error ? error.message : String(error)
+    return NextResponse.json({ error: `Server error: ${msg}` }, { status: 500 })
   }
 }
