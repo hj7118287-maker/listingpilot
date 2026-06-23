@@ -5,22 +5,22 @@ import Link from 'next/link'
 
 const PLANS = [
   {
-    name: 'Free', price: 0, priceId: null,
+    name: 'Free', price: 0, checkoutUrl: null,
     features: ['3 listings/month', 'SEO title generation', 'English only', 'Basic risk check'],
     cta: 'Start Free', highlight: false,
   },
   {
-    name: 'Starter', price: 19, priceId: 'starter',
+    name: 'Starter', price: 19, checkoutUrl: 'https://listingpilot-ai.lemonsqueezy.com/checkout/buy/01bae6ca-fcbb-49b5-9235-c7e1ba410e34',
     features: ['50 listings/month', 'Full SEO package', 'Bullet points + FAQ', 'Risk expression check', 'All markets'],
     cta: 'Get Starter', highlight: false,
   },
   {
-    name: 'Pro', price: 49, priceId: 'pro',
+    name: 'Pro', price: 49, checkoutUrl: 'https://listingpilot-ai.lemonsqueezy.com/checkout/buy/12dad351-9ed1-4a15-8890-fef26c20ce72',
     features: ['300 listings/month', 'All Starter features', '3-language localization', 'Review reply templates', 'Brand tone memory', 'Priority support'],
     cta: 'Get Pro', highlight: true,
   },
   {
-    name: 'Business', price: 99, priceId: 'business',
+    name: 'Business', price: 99, checkoutUrl: 'https://listingpilot-ai.lemonsqueezy.com/checkout/buy/8f581739-fb9f-4f1e-ad05-f0dd4d4ba7c6',
     features: ['Unlimited listings', 'All Pro features', 'Bulk CSV upload', 'API access', 'Team seats (3)', 'Dedicated support'],
     cta: 'Get Business', highlight: false,
   },
@@ -29,25 +29,13 @@ const PLANS = [
 export default function PricingPage() {
   const [loading, setLoading] = useState<string | null>(null)
 
-  const handleCheckout = async (priceId: string | null, planName: string) => {
-    if (!priceId) {
+  const handleCheckout = (checkoutUrl: string | null, planName: string) => {
+    if (!checkoutUrl) {
       window.location.href = '/dashboard'
       return
     }
     setLoading(planName)
-    try {
-      const res = await fetch('/api/create-checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plan: priceId }),
-      })
-      const { url } = await res.json()
-      if (url) window.location.href = url
-    } catch {
-      alert('Something went wrong. Please try again.')
-    } finally {
-      setLoading(null)
-    }
+    window.location.href = checkoutUrl
   }
 
   return (
@@ -96,7 +84,7 @@ export default function PricingPage() {
                 ))}
               </ul>
               <button
-                onClick={() => handleCheckout(plan.priceId, plan.name)}
+                onClick={() => handleCheckout(plan.checkoutUrl, plan.name)}
                 disabled={loading === plan.name}
                 className={`w-full py-3 rounded-xl font-semibold text-sm transition disabled:opacity-70 ${
                   plan.highlight
@@ -110,7 +98,7 @@ export default function PricingPage() {
         </div>
 
         <p className="text-center text-gray-400 text-sm mt-8">
-          Secure payment by Stripe · Cancel anytime · No hidden fees
+          Secure payment by Lemon Squeezy · Cancel anytime · No hidden fees
         </p>
       </div>
     </div>
